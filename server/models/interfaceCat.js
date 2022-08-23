@@ -50,13 +50,13 @@ class interfaceCat extends baseModel {
   }
 
   del (id) {
-    return this.model.remove({
+    return this.model.deleteOne({
       _id: id
     });
   }
 
   delByProjectId (id) {
-    return this.model.remove({
+    return this.model.deleteMany({
       project_id: id
     });
   }

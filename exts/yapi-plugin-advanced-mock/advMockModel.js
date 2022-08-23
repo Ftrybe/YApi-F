@@ -2,58 +2,58 @@ const yapi = require('yapi.js');
 const baseModel = require('models/base.js');
 
 class advMockModel extends baseModel {
-  getName() {
+  getName () {
     return 'adv_mock';
   }
 
-  getSchema() {
+  getSchema () {
     return {
       interface_id: { type: Number, required: true },
-      project_id: {type: Number, required: true},
-      enable: {type: Boolean, default: false}, 
+      project_id: { type: Number, required: true },
+      enable: { type: Boolean, default: false },
       mock_script: String,
       uid: String,
       up_time: Number
     };
   }
 
-  get(interface_id) {
+  get (interface_id) {
 
     return this.model.findOne({
       interface_id: interface_id
     });
   }
 
-  delByInterfaceId(interface_id) {
-    return this.model.remove({
+  delByInterfaceId (interface_id) {
+    return this.model.deleteMany({
       interface_id: interface_id
     });
   }
 
-  delByProjectId(project_id){
-    return this.model.remove({
+  delByProjectId (project_id) {
+    return this.model.deleteMany({
       project_id: project_id
     })
   }
 
-  save(data) {
+  save (data) {
     data.up_time = yapi.commons.time();
     let m = new this.model(data);
     return m.save();
   }
 
-  up(data) {
+  up (data) {
     data.up_time = yapi.commons.time();
     return this.model.update({
       interface_id: data.interface_id
     }, {
-        uid: data.uid,
-        up_time: data.up_time,
-        mock_script: data.mock_script,
-        enable: data.enable
-      }, {
-        upsert: true
-      })
+      uid: data.uid,
+      up_time: data.up_time,
+      mock_script: data.mock_script,
+      enable: data.enable
+    }, {
+      upsert: true
+    })
   }
 
 }

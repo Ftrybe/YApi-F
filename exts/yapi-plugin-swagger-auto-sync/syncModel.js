@@ -1,15 +1,15 @@
 const yapi = require('yapi.js');
 const baseModel = require('models/base.js');
-const  mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 class syncModel extends baseModel {
-  getName() {
+  getName () {
     return 'interface_auto_sync';
   }
 
-  getSchema() {
+  getSchema () {
     return {
-      uid: { type: Number},
+      uid: { type: Number },
       project_id: { type: Number, required: true },
       //是否开启自动同步
       is_sync_open: { type: Boolean, default: false },
@@ -28,25 +28,25 @@ class syncModel extends baseModel {
     };
   }
 
-  getByProjectId(id) {
+  getByProjectId (id) {
     return this.model.findOne({
       project_id: id
-    }) 
+    })
   }
 
-  delByProjectId(project_id){
-    return this.model.remove({
+  delByProjectId (project_id) {
+    return this.model.deleteMany({
       project_id: project_id
     })
   }
 
-  save(data) {
+  save (data) {
     data.up_time = yapi.commons.time();
     let m = new this.model(data);
     return m.save();
   }
 
-  listAll() {
+  listAll () {
     return this.model
       .find({})
       .select(
@@ -56,31 +56,31 @@ class syncModel extends baseModel {
       .exec();
   }
 
-  up(data) {
+  up (data) {
     let id = data.id;
     delete data.id;
     data.up_time = yapi.commons.time();
-    return this.model.update({
+    return this.model.updateOne({
       _id: id
     }, data)
   }
 
-  upById(id, data) {
+  upById (id, data) {
     delete data.id;
     data.up_time = yapi.commons.time();
-    return this.model.update({
+    return this.model.updateOne({
       _id: id
     }, data)
   }
 
-  del(id){
-    return this.model.remove({
+  del (id) {
+    return this.model.deleteOne({
       _id: id
     })
   }
 
-  delByProjectId(projectId){
-    return this.model.remove({
+  delByProjectId (projectId) {
+    return this.model.deleteMany({
       project_id: projectId
     })
   }

@@ -38,14 +38,14 @@ class followModel extends baseModel {
   }
 
   del (projectid, uid) {
-    return this.model.remove({
+    return this.model.deleteMany({
       projectid: projectid,
       uid: uid,
     })
   }
 
   delByProjectId (projectid) {
-    return this.model.remove({
+    return this.model.deleteMany({
       projectid: projectid
     })
   }

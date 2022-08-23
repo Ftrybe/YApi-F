@@ -224,13 +224,13 @@ class projectModel extends baseModel {
   }
 
   del (id) {
-    return this.model.remove({
+    return this.model.deleteOne({
       _id: id,
     })
   }
 
   delByGroupid (groupId) {
-    return this.model.remove({
+    return this.model.deleteMany({
       group_id: groupId,
     })
   }

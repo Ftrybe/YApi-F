@@ -1,17 +1,8 @@
 # YApi-F
 
-`YApi-F` 基于 [`YApi v1.8.8`](https://github.com/YMFE/yapi/tree/v1.8.8) 开发，相较原版，有以下改动：
-`YApi-F` 基于 [`YApi-X v2.7.0`](https://github.com/YMFE/yapi/tree/v1.8.8) 开发，相较原版，有以下改动：
+`YApi-F` 基于 [`YApi v1.8.8`](https://github.com/YMFE/yapi/tree/v1.8.8) [`YApi-X v2.7.0`](https://github.com/fjc0k/YApi-X/tree/v2.7.0) 开发，相较原版，有以下改动：
 
-- 接口路径支持更多字符，可以将 `@`、`#`、`;` 等字符用于接口路径定义；
-- 支持复制分类；
-- 新增 `adminPassword` 配置项以设置管理员密码；
-- 项目图标支持自传图片；
-- 接口运行支持上传文件（[需安装插件 →](https://github.com/fjc0k/YApi-X/tree/master/chrome-extension#readme)）；
-- 请求参数设置下的 Headers 支持批量添加；
-- 支持 webdav 扩展的 HTTP 请求方法 PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK, UNLOCK（[了解更多 →](http://www.webdav.org/specs/rfc2518.html)）；
-- 支持为路径参数、查询参数设置类型。
-- 更新原版 1.8.8 之后修复的补丁
+- 基于 Yapi-X 更新原版 1.8.8 之后修复的补丁
 
 ---
 

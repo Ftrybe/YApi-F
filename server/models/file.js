@@ -1,11 +1,11 @@
 const baseModel = require('./base.js')
 
 class fileModel extends baseModel {
-  getName() {
+  getName () {
     return 'file'
   }
 
-  getSchema() {
+  getSchema () {
     return {
       name: String,
       mimeType: String,
@@ -14,19 +14,19 @@ class fileModel extends baseModel {
     }
   }
 
-  save(data) {
+  save (data) {
     const m = new this.model(data)
     return m.save()
   }
 
-  get(id) {
+  get (id) {
     return this.model.findOne({
       _id: id,
     })
   }
 
-  del(id) {
-    return this.model.remove({
+  del (id) {
+    return this.model.deleteOne({
       _id: id,
     })
   }

@@ -170,13 +170,13 @@ class groupModel extends baseModel {
   }
 
   del (id) {
-    return this.model.remove({
+    return this.model.deleteOne({
       _id: id
     });
   }
 
   up (id, data) {
-    return this.model.update(
+    return this.model.updateOne(
       {
         _id: id
       },

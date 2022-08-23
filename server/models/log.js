@@ -4,11 +4,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 class logModel extends baseModel {
-  getName() {
+  getName () {
     return 'log';
   }
 
-  getSchema() {
+  getSchema () {
     return {
       uid: { type: Number, required: true },
       typeid: { type: Number, required: true },
@@ -32,7 +32,7 @@ class logModel extends baseModel {
    * @param {Number} typeid 类型id
    * @param {Number} add_time 时间
    */
-  save(data) {
+  save (data) {
     let saveData = {
       content: data.content,
       type: data.type,
@@ -48,13 +48,13 @@ class logModel extends baseModel {
     return log.save();
   }
 
-  del(id) {
-    return this.model.remove({
+  del (id) {
+    return this.model.deleteOne({
       _id: id
     });
   }
 
-  list(typeid, type) {
+  list (typeid, type) {
     return this.model
       .find({
         typeid: typeid,
@@ -63,7 +63,7 @@ class logModel extends baseModel {
       .exec();
   }
 
-  listWithPaging(typeid, type, page, limit, selectValue) {
+  listWithPaging (typeid, type, page, limit, selectValue) {
     page = parseInt(page);
     limit = parseInt(limit);
     const params = {
@@ -84,7 +84,7 @@ class logModel extends baseModel {
       .limit(limit)
       .exec();
   }
-  listWithPagingByGroup(typeid, pidList, page, limit) {
+  listWithPagingByGroup (typeid, pidList, page, limit) {
     page = parseInt(page);
     limit = parseInt(limit);
     return this.model
@@ -105,7 +105,7 @@ class logModel extends baseModel {
       .limit(limit)
       .exec();
   }
-  listCountByGroup(typeid, pidList) {
+  listCountByGroup (typeid, pidList) {
     return this.model.countDocuments({
       $or: [
         {
@@ -119,7 +119,7 @@ class logModel extends baseModel {
       ]
     });
   }
-  listCount(typeid, type, selectValue) {
+  listCount (typeid, type, selectValue) {
     const params = {
       type: type,
       typeid: typeid
@@ -135,7 +135,7 @@ class logModel extends baseModel {
     return this.model.countDocuments(params);
   }
 
-  listWithCatid(typeid, type, interfaceId) {
+  listWithCatid (typeid, type, interfaceId) {
     const params = {
       type: type,
       typeid: typeid

@@ -15,11 +15,11 @@ class stroageModel extends baseModel {
     );
   }
 
-  getName() {
+  getName () {
     return 'storage';
   }
 
-  getSchema() {
+  getSchema () {
     return {
       key: { type: Number, required: true },
       data: {
@@ -28,28 +28,28 @@ class stroageModel extends baseModel {
       } //用于原始数据存储
     };
   }
-  save(key, data = {}, isInsert = false) {
+  save (key, data = {}, isInsert = false) {
 
     let saveData = {
       key,
       data: JSON.stringify(data, null, 2)
     };
-    if(isInsert){
+    if (isInsert) {
       let r = new this.model(saveData);
       return r.save();
     }
-    return this.model.updateOne({
+    return this.model.deleteMany({
       key
     }, saveData)
   }
 
-  del(key) {
-    return this.model.remove({
+  del (key) {
+    return this.model.deleteMany({
       key
     });
   }
 
-  get(key) {
+  get (key) {
     return this.model
       .findOne({
         key

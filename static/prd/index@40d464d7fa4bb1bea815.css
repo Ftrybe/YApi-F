@@ -11453,6 +11453,7 @@ textarea.ant-input-number {
   position: relative;
   background: #fff;
   min-width: 0;
+  height: initial !important;
 }
 .ant-layout-sider-children {
   height: 100%;

@@ -735,14 +735,14 @@ class projectController extends baseController {
     }
     const fm = yapi.getInst(fileModel)
     if (logo) {
-      await fm.model.remove({
+      await fm.model.deleteMany({
         $and: [
           { _id: { $ne: logo } },
           { 'extra.logo4project': id },
         ],
       })
     } else {
-      await fm.model.remove({
+      await fm.model.deleteMany({
         'extra.logo4project': id,
       })
     }
