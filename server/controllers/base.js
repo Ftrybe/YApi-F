@@ -6,7 +6,7 @@ const groupModel = require('../models/group.js')
 const tokenModel = require('../models/token.js')
 const _ = require('underscore')
 const jwt = require('jsonwebtoken')
-const {parseToken} = require('../utils/token')
+const { parseToken } = require('../utils/token')
 
 class baseController {
   constructor(ctx) {
@@ -18,7 +18,7 @@ class baseController {
     }
   }
 
-  async init(ctx) {
+  async init (ctx) {
     this.$user = null
     this.tokenModel = yapi.getInst(tokenModel)
     this.projectModel = yapi.getInst(projectModel)
@@ -52,6 +52,7 @@ class baseController {
       '/api/project/get',
       '/api/plugin/export',
       '/api/project/up',
+      '/api/plugin/exportSwagger'
     ]
 
     const params = Object.assign({}, ctx.query, ctx.request.body)
@@ -110,18 +111,18 @@ class baseController {
     }
   }
 
-  async getProjectIdByToken(token) {
+  async getProjectIdByToken (token) {
     const projectId = await this.tokenModel.findId(token)
     if (projectId) {
       return projectId.toObject().project_id
     }
   }
 
-  getUid() {
+  getUid () {
     return parseInt(this.$uid, 10)
   }
 
-  async checkLogin(ctx) {
+  async checkLogin (ctx) {
     const token = ctx.cookies.get('_yapi_token')
     const uid = ctx.cookies.get('_yapi_uid')
     try {
@@ -155,7 +156,7 @@ class baseController {
     }
   }
 
-  async checkRegister() {
+  async checkRegister () {
     // console.log('config', yapi.WEBCONFIG);
     if (yapi.WEBCONFIG.closeRegister) {
       return false
@@ -163,7 +164,7 @@ class baseController {
     return true
   }
 
-  async checkLDAP() {
+  async checkLDAP () {
     // console.log('config', yapi.WEBCONFIG);
     if (!yapi.WEBCONFIG.ldapLogin) {
       return false
@@ -175,7 +176,7 @@ class baseController {
    * @param {*} ctx
    */
 
-  async getLoginStatus(ctx) {
+  async getLoginStatus (ctx) {
     let body
     if ((await this.checkLogin(ctx)) === true) {
       const result = yapi.commons.fieldSelect(this.$user, [
@@ -198,19 +199,19 @@ class baseController {
     ctx.body = body
   }
 
-  getRole() {
+  getRole () {
     return this.$user.role
   }
 
-  getUsername() {
+  getUsername () {
     return this.$user.username
   }
 
-  getEmail() {
+  getEmail () {
     return this.$user.email
   }
 
-  async getProjectRole(id, type) {
+  async getProjectRole (id, type) {
     const result = {}
     try {
       if (this.getRole() === 'admin') {
@@ -289,7 +290,7 @@ class baseController {
    * @param {*} type enum[interface, project, group]
    * @param {*} action enum[ danger, edit, view ] danger只有owner或管理员才能操作,edit只要是dev或以上就能执行
    */
-  async checkAuth(id, type, action) {
+  async checkAuth (id, type, action) {
     const role = await this.getProjectRole(id, type)
 
     if (action === 'danger') {

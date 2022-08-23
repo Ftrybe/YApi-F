@@ -28,10 +28,10 @@ class userController extends baseController {
    * @returns {Object}
    * @example ./api/user/login.json
    */
-  async login(ctx) {
+  async login (ctx) {
     //登录
     const userInst = yapi.getInst(userModel) //创建user实体
-    const email = ctx.request.body.email
+    const email = (ctx.request.body.email || '').trim()
     const password = ctx.request.body.password
 
     if (!email) {
@@ -76,7 +76,7 @@ class userController extends baseController {
    * @example ./api/user/logout.json
    */
 
-  async logout(ctx) {
+  async logout (ctx) {
     ctx.cookies.set('_yapi_token', null)
     ctx.cookies.set('_yapi_uid', null)
     ctx.body = yapi.commons.resReturn('ok')
@@ -92,7 +92,7 @@ class userController extends baseController {
    * @example
    */
 
-  async upStudy(ctx) {
+  async upStudy (ctx) {
     const userInst = yapi.getInst(userModel) //创建user实体
     const data = {
       up_time: yapi.commons.time(),
@@ -106,7 +106,7 @@ class userController extends baseController {
     }
   }
 
-  async loginByToken(ctx) {
+  async loginByToken (ctx) {
     try {
       const ret = await yapi.emitHook('third_login', ctx)
       const login = await this.handleThirdLogin(ret.email, ret.username)
@@ -131,11 +131,11 @@ class userController extends baseController {
    * @returns {Object}
    *
    */
-  async getLdapAuth(ctx) {
+  async getLdapAuth (ctx) {
     try {
-      const {email, password} = ctx.request.body
+      const { email, password } = ctx.request.body
       // const username = email.split(/\@/g)[0];
-      const {info: ldapInfo} = await ldap.ldapQuery(email, password)
+      const { info: ldapInfo } = await ldap.ldapQuery(email, password)
       const emailPrefix = email.split(/@/g)[0]
       const emailPostfix = yapi.WEBCONFIG.ldapLogin.emailPostfix
 
@@ -171,7 +171,7 @@ class userController extends baseController {
   }
 
   // 处理第三方登录
-  async handleThirdLogin(email, username) {
+  async handleThirdLogin (email, username) {
     let user, data, passsalt
     const userInst = yapi.getInst(userModel)
 
@@ -218,7 +218,7 @@ class userController extends baseController {
    * @return {Object}
    * @example ./api/user/change_password.json
    */
-  async changePassword(ctx) {
+  async changePassword (ctx) {
     const params = ctx.request.body
     const userInst = yapi.getInst(userModel)
 
@@ -259,19 +259,19 @@ class userController extends baseController {
     }
   }
 
-  async handlePrivateGroup(uid) {
+  async handlePrivateGroup (uid) {
     const groupInst = yapi.getInst(groupModel)
     await groupInst.save({
       uid: uid,
-      group_name: `User-${ uid}`,
+      group_name: `User-${uid}`,
       add_time: yapi.commons.time(),
       up_time: yapi.commons.time(),
       type: 'private',
     })
   }
 
-  setLoginCookie(uid, passsalt) {
-    const token = jwt.sign({uid: uid}, passsalt, {expiresIn: '7 days'})
+  setLoginCookie (uid, passsalt) {
+    const token = jwt.sign({ uid: uid }, passsalt, { expiresIn: '7 days' })
 
     this.ctx.cookies.set('_yapi_token', token, {
       expires: yapi.commons.expireDate(7),
@@ -295,7 +295,7 @@ class userController extends baseController {
    * @returns {Object}
    * @example ./api/user/login.json
    */
-  async reg(ctx) {
+  async reg (ctx) {
     //注册
     if (yapi.WEBCONFIG.closeRegister) {
       return (ctx.body = yapi.commons.resReturn(null, 400, '禁止注册，请联系管理员'))
@@ -356,9 +356,8 @@ class userController extends baseController {
       })
       yapi.commons.sendMail({
         to: user.email,
-        contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi可视化接口平台,您的账号 ${
-          params.email
-        } 已经注册成功</p>`,
+        contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi可视化接口平台,您的账号 ${params.email
+          } 已经注册成功</p>`,
       })
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 401, e.message)
@@ -376,7 +375,7 @@ class userController extends baseController {
    * @returns {Object}
    * @example
    */
-  async list(ctx) {
+  async list (ctx) {
     const page = ctx.request.query.page || 1,
       limit = ctx.request.query.limit || 10
 
@@ -404,11 +403,15 @@ class userController extends baseController {
    * @returns {Object}
    * @example
    */
-  async findById(ctx) {
+  async findById (ctx) {
     //根据id获取用户信息
     try {
       const userInst = yapi.getInst(userModel)
       const id = ctx.request.query.id
+
+      if (this.getRole() !== 'admin' && id != this.getUid()) {
+        return (ctx.body = yapi.commons.resReturn(null, 401, '没有权限'));
+      }
 
       if (!id) {
         return (ctx.body = yapi.commons.resReturn(null, 400, 'uid不能为空'))
@@ -444,7 +447,7 @@ class userController extends baseController {
    * @returns {Object}
    * @example
    */
-  async del(ctx) {
+  async del (ctx) {
     //根据id删除一个用户
     try {
       if (this.getRole() !== 'admin') {
@@ -481,7 +484,7 @@ class userController extends baseController {
    * @returns {Object}
    * @example
    */
-  async update(ctx) {
+  async update (ctx) {
     //更新用户信息
     try {
       let params = ctx.request.body
@@ -548,7 +551,7 @@ class userController extends baseController {
    * @example
    */
 
-  async uploadAvatar(ctx) {
+  async uploadAvatar (ctx) {
     try {
       let basecode = ctx.request.body.basecode
       if (!basecode) {
@@ -589,7 +592,7 @@ class userController extends baseController {
    * @example
    */
 
-  async avatar(ctx) {
+  async avatar (ctx) {
     try {
       const uid = ctx.query.uid ? ctx.query.uid : this.getUid()
       const avatarInst = yapi.getInst(avatarModel)
@@ -606,7 +609,7 @@ class userController extends baseController {
       ctx.set('Content-type', type)
       ctx.body = dataBuffer
     } catch (err) {
-      ctx.body = `error:${ err.message}`
+      ctx.body = `error:${err.message}`
     }
   }
 
@@ -620,8 +623,8 @@ class userController extends baseController {
    * @return {Object}
    * @example ./api/user/search.json
    */
-  async search(ctx) {
-    const {q} = ctx.request.query
+  async search (ctx) {
+    const { q } = ctx.request.query
 
     if (!q) {
       return (ctx.body = yapi.commons.resReturn(void 0, 400, 'No keyword.'))
@@ -666,8 +669,8 @@ class userController extends baseController {
    * @return {Object}
    * @example
    */
-  async project(ctx) {
-    let {id, type} = ctx.request.query
+  async project (ctx) {
+    let { id, type } = ctx.request.query
     const result = {}
     try {
       if (type === 'interface') {

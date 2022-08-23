@@ -41,7 +41,7 @@ export default class Project extends Component {
     super(props);
   }
 
-  async componentWillMount() {
+  async componentWillMount () {
     await this.props.getProject(this.props.match.params.id);
     await this.props.fetchGroupMsg(this.props.curProject.group_id);
 
@@ -56,7 +56,7 @@ export default class Project extends Component {
     ]);
   }
 
-  async componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps (nextProps) {
     const currProjectId = this.props.match.params.id;
     const nextProjectId = nextProps.match.params.id;
     if (currProjectId !== nextProjectId) {
@@ -74,7 +74,7 @@ export default class Project extends Component {
     }
   }
 
-  render() {
+  render () {
     const { match, location } = this.props;
     let routers = {
       interface: { name: '接口', path: '/project/:id/interface/:action', component: Interface },
@@ -139,7 +139,7 @@ export default class Project extends Component {
       });
     }
 
-    if (Object.keys(this.props.curProject).length === 0) {
+    if (this.props.curProject == null || Object.keys(this.props.curProject).length === 0) {
       return <Loading visible />;
     }
 

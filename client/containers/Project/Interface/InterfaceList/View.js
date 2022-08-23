@@ -35,7 +35,7 @@ class View extends Component {
     custom_field: PropTypes.object,
   }
 
-  req_body_form(req_body_type, req_body_form) {
+  req_body_form (req_body_type, req_body_form) {
     if (req_body_type === 'form') {
       const columns = [
         {
@@ -74,7 +74,7 @@ class View extends Component {
           dataIndex: 'example',
           key: 'example',
           width: 80,
-          render(_, item) {
+          render (_, item) {
             return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>
           },
         },
@@ -82,7 +82,7 @@ class View extends Component {
           title: '备注',
           dataIndex: 'value',
           key: 'value',
-          render(_, item) {
+          render (_, item) {
             return <p style={{ whiteSpace: 'pre-wrap' }}>{item.value}</p>
           },
         },
@@ -117,7 +117,7 @@ class View extends Component {
       )
     }
   }
-  res_body(res_body_type, res_body, res_body_is_json_schema) {
+  res_body (res_body_type, res_body, res_body_is_json_schema) {
     if (res_body_type === 'json') {
       if (res_body_is_json_schema) {
         return <SchemaTable dataSource={res_body} />
@@ -147,7 +147,7 @@ class View extends Component {
     }
   }
 
-  req_body(req_body_type, req_body_other, req_body_is_json_schema) {
+  req_body (req_body_type, req_body_other, req_body_is_json_schema) {
     if (req_body_other) {
       if (req_body_is_json_schema && req_body_type === 'json') {
         return <SchemaTable dataSource={req_body_other} />
@@ -166,7 +166,7 @@ class View extends Component {
     }
   }
 
-  req_query(query) {
+  req_query (query) {
     const columns = [
       {
         title: '参数名称',
@@ -191,7 +191,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         width: 80,
-        render(_, item) {
+        render (_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>
         },
       },
@@ -199,7 +199,7 @@ class View extends Component {
         title: '备注',
         dataIndex: 'value',
         key: 'value',
-        render(_, item) {
+        render (_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.value}</p>
         },
       },
@@ -230,7 +230,7 @@ class View extends Component {
     )
   }
 
-  countEnter(str) {
+  countEnter (str) {
     let i = 0
     let c = 0
     if (!str || !str.indexOf) {
@@ -243,7 +243,7 @@ class View extends Component {
     return c
   }
 
-  componentDidMount() {
+  componentDidMount () {
     if (!this.props.curData.title && this.state.init) {
       this.setState({ init: false })
     }
@@ -278,7 +278,7 @@ class View extends Component {
     }
   }
 
-  render() {
+  render () {
     const dataSource = []
     if (
       this.props.curData.req_headers &&
@@ -326,7 +326,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         width: 80,
-        render(_, item) {
+        render (_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>
         },
       },
@@ -334,7 +334,7 @@ class View extends Component {
         title: '备注',
         dataIndex: 'desc',
         key: 'desc',
-        render(_, item) {
+        render (_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.desc}</p>
         },
       },
@@ -364,7 +364,7 @@ class View extends Component {
         dataIndex: 'example',
         key: 'example',
         width: '80px',
-        render(_, item) {
+        render (_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.example}</p>
         },
       },
@@ -372,7 +372,7 @@ class View extends Component {
         title: '备注',
         dataIndex: 'desc',
         key: 'desc',
-        render(_, item) {
+        render (_, item) {
           return <p style={{ whiteSpace: 'pre-wrap' }}>{item.desc}</p>
         },
       },
@@ -396,9 +396,9 @@ class View extends Component {
 
     let methodColor =
       variable.METHOD_COLOR[
-        this.props.curData.method
-          ? this.props.curData.method.toLowerCase()
-          : 'get'
+      this.props.curData.method
+        ? this.props.curData.method.toLowerCase()
+        : 'get'
       ]
 
     // statusColor = statusColor[this.props.curData.status?this.props.curData.status.toLowerCase():"undone"];
@@ -422,7 +422,7 @@ class View extends Component {
               接口名称：
             </Col>
             <Col span={8} className='colName'>
-              {title}
+              <span title={title}>{title}</span>
             </Col>
             <Col span={4} className='colKey'>
               创&ensp;建&ensp;人：
@@ -507,10 +507,10 @@ class View extends Component {
                 onClick={() =>
                   window.open(
                     location.protocol +
-                      '//' +
-                      location.hostname +
-                      (location.port !== '' ? ':' + location.port : '') +
-                      `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`,
+                    '//' +
+                    location.hostname +
+                    (location.port !== '' ? ':' + location.port : '') +
+                    `/mock/${this.props.currProject._id}${this.props.currProject.basepath}${this.props.curData.path}`,
                     '_blank',
                   )
                 }>
@@ -588,7 +588,7 @@ class View extends Component {
           style={{
             display:
               this.props.curData.method &&
-              HTTP_METHOD[this.props.curData.method.toUpperCase()].request_body
+                HTTP_METHOD[this.props.curData.method.toUpperCase()].request_body
                 ? ''
                 : 'none',
           }}>
@@ -597,14 +597,14 @@ class View extends Component {
           </h3>
           {this.props.curData.req_body_type === 'form'
             ? this.req_body_form(
-                this.props.curData.req_body_type,
-                this.props.curData.req_body_form,
-              )
+              this.props.curData.req_body_type,
+              this.props.curData.req_body_form,
+            )
             : this.req_body(
-                this.props.curData.req_body_type,
-                this.props.curData.req_body_other,
-                this.props.curData.req_body_is_json_schema,
-              )}
+              this.props.curData.req_body_type,
+              this.props.curData.req_body_other,
+              this.props.curData.req_body_is_json_schema,
+            )}
         </div>
 
         <h2 className='interface-title'>返回数据</h2>

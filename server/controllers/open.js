@@ -72,7 +72,7 @@ class openController extends baseController {
     };
   }
 
-  async importData(ctx) {
+  async importData (ctx) {
     let type = ctx.params.type;
     let content = ctx.params.json;
     let project_id = ctx.params.project_id;
@@ -83,12 +83,12 @@ class openController extends baseController {
     /**
      * 因为以前接口文档写错了，做下兼容
      */
-    try{
-      if(!dataSync &&ctx.params.dataSync){
+    try {
+      if (!dataSync && ctx.params.dataSync) {
         warnMessage = 'importData Api 已废弃 dataSync 传参，请联系管理员将 dataSync 改为 merge.'
         dataSync = ctx.params.dataSync
       }
-    }catch(e){}
+    } catch (e) { }
 
     let token = ctx.params.token;
     if (!type || !importDataModule[type]) {
@@ -100,20 +100,20 @@ class openController extends baseController {
     }
     try {
       let request = require("request");// let Promise = require('Promise');
-      let syncGet = function (url){
-          return new Promise(function(resolve, reject){
-              request.get({url : url}, function(error, response, body){
-                  if(error){
-                      reject(error);
-                  }else{
-                      resolve(body);
-                  }
-              });
+      let syncGet = function (url) {
+        return new Promise(function (resolve, reject) {
+          request.get({ url: url }, function (error, response, body) {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(body);
+            }
           });
-      } 
-      if(ctx.params.url){
+        });
+      }
+      if (ctx.params.url) {
         content = await syncGet(ctx.params.url);
-      }else if(content.indexOf('http://') === 0 || content.indexOf('https://') === 0){
+      } else if (content.indexOf('http://') === 0 || content.indexOf('https://') === 0) {
         content = await syncGet(content);
       }
       content = JSON.parse(content);
@@ -122,6 +122,23 @@ class openController extends baseController {
     }
 
     let menuList = await this.interfaceCatModel.list(project_id);
+    /**
+   * 防止分类被都被删除时取不到 selectCatid
+   * 如果没有分类,增加一个默认分类
+   */
+    if (menuList.length === 0) {
+      const catInst = yapi.getInst(interfaceCatModel);
+      const menu = await catInst.save({
+        name: '默认分类',
+        project_id: project_id,
+        desc: '默认分类',
+        uid: this.getUid(),
+        add_time: yapi.commons.time(),
+        up_time: yapi.commons.time()
+      });
+      menuList.push(menu);
+    }
+
     let selectCatid = menuList[0]._id;
     let projectData = await this.projectModel.get(project_id);
     let res = await importDataModule[type](content);
@@ -141,7 +158,7 @@ class openController extends baseController {
       msg => {
         successMessage = msg;
       },
-      () => {},
+      () => { },
       token,
       yapi.WEBCONFIG.port
     );
@@ -152,17 +169,17 @@ class openController extends baseController {
     ctx.body = yapi.commons.resReturn(null, 0, successMessage + warnMessage);
   }
 
-  async projectInterfaceData(ctx) {
+  async projectInterfaceData (ctx) {
     ctx.body = 'projectInterfaceData';
   }
 
-  handleValue(val, global) {
+  handleValue (val, global) {
     let globalValue = ArrayToObject(global);
-    let context = Object.assign({}, {global: globalValue}, this.records);
+    let context = Object.assign({}, { global: globalValue }, this.records);
     return handleParamsValue(val, context);
   }
 
-  handleEvnParams(params) {
+  handleEvnParams (params) {
     let result = [];
     Object.keys(params).map(item => {
       if (/env_/gi.test(item)) {
@@ -173,7 +190,7 @@ class openController extends baseController {
     });
     return result;
   }
-  async runAutoTest(ctx) {
+  async runAutoTest (ctx) {
     if (!this.$tokenAuth) {
       return (ctx.body = yapi.commons.resReturn(null, 40022, 'token 验证失败'));
     }
@@ -230,7 +247,7 @@ class openController extends baseController {
       testList.push(result);
     }
 
-    function getMessage(testList) {
+    function getMessage (testList) {
       let successNum = 0,
         failedNum = 0,
         len = 0,
@@ -264,9 +281,8 @@ class openController extends baseController {
     };
 
     if (ctx.params.email === true && reportsResult.message.failedNum !== 0) {
-      let autoTestUrl = `${
-        ctx.request.origin
-      }/api/open/run_auto_test?id=${id}&token=${token}&mode=${ctx.params.mode}`;
+      let autoTestUrl = `${ctx.request.origin
+        }/api/open/run_auto_test?id=${id}&token=${token}&mode=${ctx.params.mode}`;
       yapi.commons.sendNotice(projectId, {
         title: `YApi自动化测试报告`,
         content: `
@@ -286,7 +302,7 @@ class openController extends baseController {
       });
     }
     let mode = ctx.params.mode || 'html';
-    if(ctx.params.download === true) {
+    if (ctx.params.download === true) {
       ctx.set('Content-Disposition', `attachment; filename=test.${mode}`);
     }
     if (ctx.params.mode === 'json') {
@@ -296,7 +312,7 @@ class openController extends baseController {
     }
   }
 
-  async handleTest(interfaceData) {
+  async handleTest (interfaceData) {
     let requestParams = {};
     let options;
     options = handleParams(interfaceData, this.handleValue, requestParams);
@@ -309,7 +325,7 @@ class openController extends baseController {
     };
     try {
       options.taskId = this.getUid();
-      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script,createContex(
+      let data = await crossRequest(options, interfaceData.pre_script, interfaceData.after_script, createContex(
         this.getUid(),
         interfaceData.project_id,
         interfaceData.interface_id
@@ -364,8 +380,8 @@ class openController extends baseController {
     return result;
   }
 
-  async handleScriptTest(interfaceData, response, validRes, requestParams) {
-    
+  async handleScriptTest (interfaceData, response, validRes, requestParams) {
+
     try {
       let test = await yapi.commons.runCaseScript({
         response: response,
@@ -387,7 +403,7 @@ class openController extends baseController {
     }
   }
 
-  handleReqHeader(req_header, envData, curEnvName) {
+  handleReqHeader (req_header, envData, curEnvName) {
     let currDomain = handleCurrDomain(envData, curEnvName);
 
     let header = currDomain.header;

@@ -22,7 +22,7 @@ require('common/tui-editor/dist/tui-editor.min.css') // editor ui
 require('common/tui-editor/dist/tui-editor-contents.min.css') // editor content
 require('./editor.css')
 
-function checkIsJsonSchema(json) {
+function checkIsJsonSchema (json) {
   try {
     json = json5.parse(json)
     if (json.properties && typeof json.properties === 'object' && !json.type) {
@@ -130,7 +130,7 @@ class InterfaceEditForm extends Component {
     onTagClick: PropTypes.func,
   }
 
-  initState(curdata) {
+  initState (curdata) {
     this.startTime = new Date().getTime()
     if (curdata.req_query && curdata.req_query.length === 0) {
       delete curdata.req_query
@@ -304,11 +304,11 @@ class InterfaceEditForm extends Component {
           } else if (values.req_body_type === 'json') {
             values.req_headers
               ? values.req_headers.map(item => {
-                  if (item.name === 'Content-Type') {
-                    item.value = 'application/json'
-                    isHaveContentType = true
-                  }
-                })
+                if (item.name === 'Content-Type') {
+                  item.value = 'application/json'
+                  isHaveContentType = true
+                }
+              })
               : []
             if (isHaveContentType === false) {
               values.req_headers = values.req_headers || []
@@ -385,7 +385,7 @@ class InterfaceEditForm extends Component {
     })
   }
 
-  componentDidMount() {
+  componentDidMount () {
     EditFormContext = this
     this._isMounted = true
     this.setState({
@@ -408,7 +408,7 @@ class InterfaceEditForm extends Component {
     })
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     EditFormContext.props.changeEditStatus(false)
     EditFormContext = null
     this._isMounted = false
@@ -568,13 +568,13 @@ class InterfaceEditForm extends Component {
     let newValue = []
 
     this.state.bulkValue.split('\n').forEach((item, index) => {
-      let valueItem = Object.assign(
-        {},
-        curValue[index] || dataTpl[this.state.bulkName],
-      )
-      valueItem.name = item.split(':')[0]
-      valueItem.example = item.split(':')[1] || ''
-      newValue.push(valueItem)
+      let valueItem = Object.assign({}, curValue[index] || dataTpl[this.state.bulkName])
+      let indexOfColon = item.indexOf(':');
+      if (indexOfColon !== -1) {
+        valueItem.name = item.substring(0, indexOfColon);
+        valueItem.example = item.substring(indexOfColon + 1) || '';
+        newValue.push(valueItem);
+      }
     })
 
     this.props.form.setFieldsValue({ [this.state.bulkName]: newValue })
@@ -670,7 +670,7 @@ class InterfaceEditForm extends Component {
     })
   }
 
-  render() {
+  render () {
     const { getFieldDecorator } = this.props.form
     const { custom_field, projectMsg } = this.props
 
@@ -890,8 +890,8 @@ class InterfaceEditForm extends Component {
 
     const headerList = this.state.req_headers
       ? this.state.req_headers.map((item, index) => {
-          return headerTpl(item, index)
-        })
+        return headerTpl(item, index)
+      })
       : []
 
     const requestBodyList = this.state.req_body_form.map((item, index) => {
@@ -1021,7 +1021,7 @@ class InterfaceEditForm extends Component {
                     disabled
                     value={this.props.basepath}
                     readOnly
-                    onChange={() => {}}
+                    onChange={() => { }}
                     style={{ width: '25%' }}
                   />
                 </Tooltip>
@@ -1310,7 +1310,7 @@ class InterfaceEditForm extends Component {
             </Row>
 
             {this.props.form.getFieldValue('req_body_type') === 'file' &&
-            this.state.hideTabs.req.body !== 'hide' ? (
+              this.state.hideTabs.req.body !== 'hide' ? (
               <Row className='interface-edit-item'>
                 <Col className='interface-edit-item-other-body'>
                   {getFieldDecorator('req_body_other', {
@@ -1320,7 +1320,7 @@ class InterfaceEditForm extends Component {
               </Row>
             ) : null}
             {this.props.form.getFieldValue('req_body_type') === 'raw' &&
-            this.state.hideTabs.req.body !== 'hide' ? (
+              this.state.hideTabs.req.body !== 'hide' ? (
               <Row>
                 <Col>
                   {getFieldDecorator('req_body_other', {
@@ -1538,7 +1538,7 @@ class InterfaceEditForm extends Component {
 }
 
 export default Form.create({
-  onValuesChange() {
+  onValuesChange () {
     EditFormContext.props.changeEditStatus(true)
   },
 })(InterfaceEditForm)

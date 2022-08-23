@@ -48,6 +48,10 @@ const mapping = function (data, index) {
   }
 }
 
+const ConcatDesc = (title, desc) => {
+  return [title, desc].join('\n').trim();
+};
+
 const Schema = (data, key) => {
   const result = mapping(data, key)
   if (data.type !== 'object') {
@@ -89,7 +93,7 @@ const SchemaObject = (data, key) => {
     let item = {
       name,
       key: `${key}-${index}`,
-      desc: copiedState.description,
+      desc: ConcatDesc(copiedState.title, copiedState.description),
       required: required.indexOf(name) !== -1,
     }
 
@@ -107,7 +111,7 @@ const SchemaObject = (data, key) => {
 
 const SchemaString = data => {
   const item = {
-    desc: data.description,
+    desc: ConcatDesc(copiedState.title, copiedState.description),
     default: data.default,
     maxLength: data.maxLength,
     minLength: data.minLength,
@@ -131,7 +135,7 @@ const SchemaArray = (data, index) => {
   }
 
   let item = {
-    desc: data.description,
+    desc: ConcatDesc(copiedState.title, copiedState.description),
     default: data.default,
     minItems: data.minItems,
     uniqueItems: data.uniqueItems,
@@ -147,7 +151,7 @@ const SchemaArray = (data, index) => {
 
 const SchemaNumber = data => {
   const item = {
-    desc: data.description,
+    desc: ConcatDesc(copiedState.title, copiedState.description),
     maximum: data.maximum,
     minimum: data.minimum,
     default: data.default,
@@ -161,7 +165,7 @@ const SchemaNumber = data => {
 
 const SchemaInt = data => {
   const item = {
-    desc: data.description,
+    desc: ConcatDesc(copiedState.title, copiedState.description),
     maximum: data.maximum,
     minimum: data.minimum,
     default: data.default,
@@ -175,7 +179,7 @@ const SchemaInt = data => {
 
 const SchemaBoolean = data => {
   const item = {
-    desc: data.description,
+    desc: ConcatDesc(copiedState.title, copiedState.description),
     default: data.default,
     enum: data.enum,
     mock: data.mock && data.mock.mock,
@@ -185,7 +189,7 @@ const SchemaBoolean = data => {
 
 const SchemaOther = data => {
   const item = {
-    desc: data.description,
+    desc: ConcatDesc(copiedState.title, copiedState.description),
     default: data.default,
     mock: data.mock && data.mock.mock,
   }

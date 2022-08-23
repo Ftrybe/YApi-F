@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 //import constants from '../../../../constants/variable.js'
-import { Tooltip, Icon,Input, Button, Row, Col, Spin, Modal, message, Select, Switch } from 'antd';
+import { Tooltip, Icon, Input, Button, Row, Col, Spin, Modal, message, Select, Switch } from 'antd';
 import {
   fetchInterfaceColList,
   fetchCaseList,
@@ -23,7 +23,7 @@ import CaseReport from './CaseReport.js';
 import _ from 'underscore';
 import { initCrossRequest } from 'client/components/Postman/CheckCrossInstall.js';
 import produce from 'immer';
-import {InsertCodeMap} from 'client/components/Postman/Postman.js'
+import { InsertCodeMap } from 'client/components/Postman/Postman.js'
 
 const plugin = require('client/plugin.js');
 const {
@@ -45,7 +45,7 @@ const defaultModalStyle = {
   top: 10
 }
 
-function handleReport(json) {
+function handleReport (json) {
   try {
     return JSON.parse(json);
   } catch (e) {
@@ -134,7 +134,7 @@ class InterfaceColContent extends Component {
           enable: false
         },
         checkResponseSchema: false,
-        checkScript:{
+        checkScript: {
           enable: false,
           content: ''
         }
@@ -144,7 +144,7 @@ class InterfaceColContent extends Component {
     this.onMoveRow = this.onMoveRow.bind(this);
   }
 
-  async handleColIdChange(newColId){
+  async handleColIdChange (newColId) {
     this.props.setColData({
       currColId: +newColId,
       isShowCol: true,
@@ -155,7 +155,7 @@ class InterfaceColContent extends Component {
     if (result.payload.data.errcode === 0) {
       this.reports = handleReport(result.payload.data.colData.test_report);
       this.setState({
-        commonSetting:{
+        commonSetting: {
           ...this.state.commonSetting,
           ...result.payload.data.colData
         }
@@ -168,7 +168,7 @@ class InterfaceColContent extends Component {
     this.handleColdata(this.props.currCaseList);
   }
 
-  async componentWillMount() {
+  async componentWillMount () {
     const result = await this.props.fetchInterfaceColList(this.props.match.params.id);
     await this.props.getToken(this.props.match.params.id);
     let { currColId } = this.props;
@@ -185,7 +185,7 @@ class InterfaceColContent extends Component {
     });
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearInterval(this._crossRequestInterval);
   }
 
@@ -234,8 +234,8 @@ class InterfaceColContent extends Component {
       draftRows.map(item => {
         item.id = item._id;
         item._test_status = item.test_status;
-        if(currColEnvObj[item.project_id]){
-          item.case_env =currColEnvObj[item.project_id];
+        if (currColEnvObj[item.project_id]) {
+          item.case_env = currColEnvObj[item.project_id];
         }
         item.req_headers = that.handleReqHeader(item.project_id, item.req_headers, item.case_env);
         return item;
@@ -442,7 +442,7 @@ class InterfaceColContent extends Component {
     return obj;
   };
 
-  onRow(row) {
+  onRow (row) {
     return { rowId: row.id, onMove: this.onMoveRow, onDrop: this.onDrop };
   }
 
@@ -455,7 +455,7 @@ class InterfaceColContent extends Component {
       this.props.fetchInterfaceColList(this.props.match.params.id);
     });
   };
-  onMoveRow({ sourceRowId, targetRowId }) {
+  onMoveRow ({ sourceRowId, targetRowId }) {
     let rows = dnd.moveRows({ sourceRowId, targetRowId })(this.state.rows);
 
     if (rows) {
@@ -464,7 +464,7 @@ class InterfaceColContent extends Component {
   }
 
   onChangeTest = d => {
-    
+
     this.setState({
       commonSetting: {
         ...this.state.commonSetting,
@@ -480,10 +480,10 @@ class InterfaceColContent extends Component {
     this.aceEditor.editor.insertCode(code);
   };
 
-  async componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps (nextProps) {
     let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId : 0;
 
-    if ((newColId && this.currColId && newColId !== this.currColId) || nextProps.isRander) {
+    if (newColId && ((this.currColId && newColId !== this.currColId) || nextProps.isRander)) {
       this.currColId = newColId;
       this.handleColIdChange(newColId)
     }
@@ -561,8 +561,8 @@ class InterfaceColContent extends Component {
       [project_id]: envName
     };
     this.setState({ currColEnvObj });
-   // this.handleColdata(this.props.currCaseList, envName, project_id);
-   this.handleColdata(this.props.currCaseList,currColEnvObj);
+    // this.handleColdata(this.props.currCaseList, envName, project_id);
+    this.handleColdata(this.props.currCaseList, currColEnvObj);
   };
 
   autoTests = () => {
@@ -605,7 +605,7 @@ class InterfaceColContent extends Component {
     return str;
   };
 
-  handleCommonSetting = ()=>{
+  handleCommonSetting = () => {
     let setting = this.state.commonSetting;
 
     let params = {
@@ -627,25 +627,25 @@ class InterfaceColContent extends Component {
     })
   }
 
-  cancelCommonSetting = ()=>{
+  cancelCommonSetting = () => {
     this.setState({
       commonSettingModalVisible: false
     })
   }
 
-  openCommonSetting = ()=>{
+  openCommonSetting = () => {
     this.setState({
       commonSettingModalVisible: true
     })
   }
 
-  changeCommonFieldSetting = (key)=>{
-    return (e)=>{
+  changeCommonFieldSetting = (key) => {
+    return (e) => {
       let value = e;
-      if(typeof e === 'object' && e){
+      if (typeof e === 'object' && e) {
         value = e.target.value;
       }
-      let {checkResponseField} = this.state.commonSetting;
+      let { checkResponseField } = this.state.commonSetting;
       this.setState({
         commonSetting: {
           ...this.state.commonSetting,
@@ -657,8 +657,8 @@ class InterfaceColContent extends Component {
       })
     }
   }
-  
-  render() {
+
+  render () {
     const currProjectId = this.props.currProject._id;
     const columns = [
       {
@@ -871,11 +871,9 @@ class InterfaceColContent extends Component {
       location.hostname +
       (location.port !== '' ? ':' + location.port : '');
     let currColEnvObj = this.handleColEnvObj(this.state.currColEnvObj);
-    const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${
-      this.props.token
-    }${currColEnvObj ? currColEnvObj : ''}&mode=${this.state.mode}&email=${
-      this.state.email
-    }&download=${this.state.download}`;
+    const autoTestsUrl = `/api/open/run_auto_test?id=${this.props.currColId}&token=${this.props.token
+      }${currColEnvObj ? currColEnvObj : ''}&mode=${this.state.mode}&email=${this.state.email
+      }&download=${this.state.download}`;
 
     let col_name = '';
     let col_desc = '';
@@ -891,13 +889,13 @@ class InterfaceColContent extends Component {
     return (
       <div className="interface-col">
         <Modal
-            title="通用规则配置"
-            visible={this.state.commonSettingModalVisible}
-            onOk={this.handleCommonSetting}
-            onCancel={this.cancelCommonSetting}
-            width={'1000px'}
-            style={defaultModalStyle}
-          >
+          title="通用规则配置"
+          visible={this.state.commonSettingModalVisible}
+          onOk={this.handleCommonSetting}
+          onCancel={this.cancelCommonSetting}
+          width={'1000px'}
+          style={defaultModalStyle}
+        >
           <div className="common-setting-modal">
             <Row className="setting-item">
               <Col className="col-item" span="4">
@@ -905,33 +903,33 @@ class InterfaceColContent extends Component {
                   <Icon type="question-circle-o" style={{ width: '10px' }} />
                 </Tooltip></label>
               </Col>
-              <Col className="col-item"  span="18">
-                <Switch onChange={e=>{
-                  let {commonSetting} = this.state;
+              <Col className="col-item" span="18">
+                <Switch onChange={e => {
+                  let { commonSetting } = this.state;
                   this.setState({
-                    commonSetting :{
+                    commonSetting: {
                       ...commonSetting,
                       checkHttpCodeIs200: e
                     }
                   })
-                }} checked={this.state.commonSetting.checkHttpCodeIs200}  checkedChildren="开" unCheckedChildren="关" />
+                }} checked={this.state.commonSetting.checkHttpCodeIs200} checkedChildren="开" unCheckedChildren="关" />
               </Col>
             </Row>
 
             <Row className="setting-item">
-              <Col className="col-item"  span="4">
+              <Col className="col-item" span="4">
                 <label>检查返回json:&nbsp;<Tooltip title={'检查接口返回数据字段值，比如检查 code 是不是等于 0'}>
                   <Icon type="question-circle-o" style={{ width: '10px' }} />
                 </Tooltip></label>
               </Col>
-              <Col  className="col-item" span="6">
-                <Input value={this.state.commonSetting.checkResponseField.name} onChange={this.changeCommonFieldSetting('name')} placeholder="字段名"  />
+              <Col className="col-item" span="6">
+                <Input value={this.state.commonSetting.checkResponseField.name} onChange={this.changeCommonFieldSetting('name')} placeholder="字段名" />
               </Col>
-              <Col  className="col-item" span="6">
-                <Input  onChange={this.changeCommonFieldSetting('value')}  value={this.state.commonSetting.checkResponseField.value}   placeholder="值"  />
+              <Col className="col-item" span="6">
+                <Input onChange={this.changeCommonFieldSetting('value')} value={this.state.commonSetting.checkResponseField.value} placeholder="值" />
               </Col>
-              <Col  className="col-item" span="6">
-                <Switch  onChange={this.changeCommonFieldSetting('enable')}  checked={this.state.commonSetting.checkResponseField.enable}  checkedChildren="开" unCheckedChildren="关"  />
+              <Col className="col-item" span="6">
+                <Switch onChange={this.changeCommonFieldSetting('enable')} checked={this.state.commonSetting.checkResponseField.enable} checkedChildren="开" unCheckedChildren="关" />
               </Col>
             </Row>
 
@@ -941,16 +939,16 @@ class InterfaceColContent extends Component {
                   <Icon type="question-circle-o" style={{ width: '10px' }} />
                 </Tooltip></label>
               </Col>
-              <Col className="col-item"  span="18">
-                <Switch onChange={e=>{
-                  let {commonSetting} = this.state;
+              <Col className="col-item" span="18">
+                <Switch onChange={e => {
+                  let { commonSetting } = this.state;
                   this.setState({
-                    commonSetting :{
+                    commonSetting: {
                       ...commonSetting,
                       checkResponseSchema: e
                     }
                   })
-                }} checked={this.state.commonSetting.checkResponseSchema}  checkedChildren="开" unCheckedChildren="关" />
+                }} checked={this.state.commonSetting.checkResponseSchema} checkedChildren="开" unCheckedChildren="关" />
               </Col>
             </Row>
 
@@ -960,11 +958,11 @@ class InterfaceColContent extends Component {
                   <Icon type="question-circle-o" style={{ width: '10px' }} />
                 </Tooltip></label>
               </Col>
-              <Col className="col-item"  span="14">
-                <div><Switch onChange={e=>{
-                  let {commonSetting} = this.state;
+              <Col className="col-item" span="14">
+                <div><Switch onChange={e => {
+                  let { commonSetting } = this.state;
                   this.setState({
-                    commonSetting :{
+                    commonSetting: {
                       ...commonSetting,
                       checkScript: {
                         ...this.state.checkScript,
@@ -972,7 +970,7 @@ class InterfaceColContent extends Component {
                       }
                     }
                   })
-                }} checked={this.state.commonSetting.checkScript.enable}  checkedChildren="开" unCheckedChildren="关"  /></div>
+                }} checked={this.state.commonSetting.checkScript.enable} checkedChildren="开" unCheckedChildren="关" /></div>
                 <AceEditor
                   onChange={this.onChangeTest}
                   className="case-script"
@@ -1055,8 +1053,8 @@ class InterfaceColContent extends Component {
                   </Tooltip>
                 )}
                 <Button onClick={this.openCommonSetting} style={{
-                        marginRight: '8px'
-                      }} >通用规则配置</Button>
+                  marginRight: '8px'
+                }} >通用规则配置</Button>
                 &nbsp;
                 <Button type="primary" onClick={this.executeTests}>
                   开始测试
@@ -1231,7 +1229,7 @@ class InterfaceColContent extends Component {
             </Row>
             <Row type="flex" justify="space-around" className="row" align="middle">
               <Col span={21} className="autoTestUrl">
-                <a 
+                <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href={localUrl + autoTestsUrl} >
