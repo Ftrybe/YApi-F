@@ -22,7 +22,7 @@
     "dev-server": "nodemon server/app.js dev -L",
     "docs": "ydoc build",
     "inst all-server": "node server/install.js",
-    "release": "standard-version -a && git push --follow-tags origin master",
+    "release": "standard-version -a && git push --follow-tags origin main",
     "start": "node server/app.js",
     "test": "ava"
   },
