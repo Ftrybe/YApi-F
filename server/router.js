@@ -11,7 +11,7 @@ const logController = require('./controllers/log.js')
 const followController = require('./controllers/follow.js')
 const openController = require('./controllers/open.js')
 const fileController = require('./controllers/file.js')
-const {createAction} = require('./utils/commons.js')
+const { createAction } = require('./utils/commons.js')
 
 const router = koaRouter()
 
@@ -143,6 +143,11 @@ const routerConfig = {
       action: 'findById',
       path: 'find',
       method: 'get',
+    },
+    {
+      action: 'add',
+      path: 'add',
+      method: 'post'
     },
     {
       action: 'update',
@@ -598,14 +603,14 @@ const routerConfig = {
 
 const pluginsRouterPath = []
 
-function addPluginRouter(config) {
+function addPluginRouter (config) {
   if (!config.path || !config.controller || !config.action) {
     throw new Error('Plugin Route config Error')
   }
   const method = config.method || 'GET'
   // let routerPath = '/plugin/' + config.path;
   // 支持 /api/open/plugin 前缀的 openApi
-  const routerPath = `${config.prefix || '' }/plugin/${ config.path}`
+  const routerPath = `${config.prefix || ''}/plugin/${config.path}`
   if (pluginsRouterPath.indexOf(routerPath) > -1) {
     throw new Error('Plugin Route path conflict, please try rename the path')
   }

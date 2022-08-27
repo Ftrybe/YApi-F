@@ -1,10 +1,10 @@
 {
   "name": "yapi-x",
-  "version": "3.0.1",
+  "version": "3.0.0",
   "description": "修改Yapi-X，合并Yapi修复的信息",
   "repository": {
     "type": "git",
-    "url": "git@github.com:fjc0k/yapi-x.git"
+    "url": "git@github.com:Ftrybe/YApi-F.git"
   },
   "license": "MIT",
   "author": {

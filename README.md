@@ -3,13 +3,14 @@
 `YApi-F` 基于 [`YApi v1.8.8`](https://github.com/YMFE/yapi/tree/v1.8.8) [`YApi-X v2.7.0`](https://github.com/fjc0k/YApi-X/tree/v2.7.0) 开发，相较原版，有以下改动：
 
 - 基于 Yapi-X 更新原版 1.8.8 之后修复的补丁
+- 用户管理添加用户添加
 
 ---
 
 <!-- TOC depthFrom:2 -->
 
 - [如何安装](#如何安装)
-  - [YApi-X 镜像](#yapi-x-镜像)
+  - [YApi-F 镜像](#yapi-f-镜像)
   - [通过 Docker Compose 安装](#通过-docker-compose-安装)
     - [运行](#运行)
     - [重启](#重启)
@@ -32,7 +33,7 @@
 ### YApi-X 镜像
 
 - Docker Hub:
-  [https://hub.docker.com/r/jayfong/yapi-x/tags](https://hub.docker.com/r/jayfong/yapi-x/tags)
+  [https://hub.docker.com/r/ftrybe/yapi-f/tags](https://hub.docker.com/r/ftrybe/yapi-f/tags)
 
 ### 通过 Docker Compose 安装
 
@@ -43,10 +44,10 @@ version: '3'
 
 services:
   yapi-web:
-    image: jayfong/yapi-x:latest
+    image: ftrybe/yapi-f:latest
     container_name: yapi-web
     ports:
-      - 40001:3000
+      - 9968:3000
     environment:
       - YAPI_ADMIN_ACCOUNT=admin@docker.yapi
       - YAPI_ADMIN_PASSWORD=adm1n
@@ -80,7 +81,7 @@ services:
 docker-compose up -d
 ```
 
-然后，通过 `http://localhost:40001` 即可访问 `YApi-X`。
+然后，通过 `http://localhost:9968` 即可访问 `YApi-F`。
 
 #### 重启
 
