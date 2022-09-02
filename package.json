@@ -1,6 +1,6 @@
 {
-  "name": "yapi-x",
-  "version": "3.0.0",
+  "name": "yapi-f",
+  "version": "3.1.0",
   "description": "修改Yapi-X，合并Yapi修复的信息",
   "repository": {
     "type": "git",

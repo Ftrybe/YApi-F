@@ -1,5 +1,5 @@
 ######## 构建 ########
-FROM node:14.20-alpine3.16 as builder
+FROM node:12.16-alpine3.15 as builder
 
 RUN apk add --update --no-cache ca-certificates curl wget cmake build-base git bash python3 make gcc g++ zlib-dev autoconf automake file nasm \
   && update-ca-certificates
@@ -20,7 +20,7 @@ RUN cd .. \
   && rm -rf **/*.{map,lock,log,md,yml}
 
 ######## 镜像 ########
-FROM node:14.20-alpine3.16
+FROM node:12.16-alpine3.15
 
 WORKDIR /yapi
 
