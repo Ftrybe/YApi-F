@@ -24,14 +24,14 @@ if (WEBCONFIG.mail && WEBCONFIG.mail.enable) {
  * @example
  * yapi.getInst(groupModel, arg1, arg2)
  */
-function getInst(m, ...args) {
+function getInst (m, ...args) {
   if (!insts.get(m)) {
     insts.set(m, new m(args))
   }
   return insts.get(m)
 }
 
-function delInst(m) {
+function delInst (m) {
   try {
     insts.delete(m)
   } catch (err) {
