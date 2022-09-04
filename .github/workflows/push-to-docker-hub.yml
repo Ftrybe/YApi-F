@@ -1,0 +1,19 @@
+name: Push to Docker Hub
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: push
+      run: |
+        VERSION=${GITHUB_REF:11}
+        docker login -u ftrybe -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        docker build -f docker/Dockerfile -t ftrybe/yapi-f:latest -t ftrybe/yapi-f:${VERSION} .
+        docker push ftrybe/yapi-x:latest
+        docker push ftrybe/yapi-f:${VERSION}
