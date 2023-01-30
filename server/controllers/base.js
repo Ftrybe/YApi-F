@@ -59,7 +59,7 @@ class baseController {
     let token = params.token
 
     // 如果前缀是 /api/open，执行 parse token 逻辑
-    if (token && (openApiRouter.indexOf(ctx.path) > -1 || ctx.path.indexOf('/api/open/') === 0)) {
+    if (token && typeof token === 'string' && (openApiRouter.indexOf(ctx.path) > -1 || ctx.path.indexOf('/api/open/') === 0)) {
       const tokens = parseToken(token)
 
       const oldTokenUid = '999999'
