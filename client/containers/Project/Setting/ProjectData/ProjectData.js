@@ -36,7 +36,7 @@ function handleExportRouteParams(url, status, isWiki) {
     return;
   }
   let urlObj = URL.parse(url, true),
-    query = {};
+  query = {};
   query = Object.assign(query, urlObj.query, { status, isWiki });
   return URL.format({
     pathname: urlObj.pathname,

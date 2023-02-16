@@ -83,7 +83,8 @@ class UsernameAutoComplete extends Component {
   // 选中候选词时
   handleChange = value => {
     this.setState({
-      dataSource: [],
+      // 回显
+      // dataSource: [],
       // value,
       fetching: false
     });

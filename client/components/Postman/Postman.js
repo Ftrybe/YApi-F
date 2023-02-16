@@ -365,7 +365,6 @@ export default class Run extends Component {
     let options = handleParams(this.state, this.handleValue),
       result;
 
-
     await plugin.emitHook('before_request', options, {
       type: this.props.type,
       caseId: options.caseId,
@@ -375,6 +374,7 @@ export default class Run extends Component {
 
     try {
       options.taskId = this.props.curUid;
+
       result = await crossRequest(options, options.pre_script || this.state.pre_script, options.after_script || this.state.after_script, createContext(
         this.props.curUid,
         this.props.projectId,
@@ -396,8 +396,10 @@ export default class Run extends Component {
         runTime: result.runTime,
         getBodyAsDataUrl: result.res.getBodyAsDataUrl,
       };
+      console.log(5)
 
     } catch (data) {
+
       result = {
         header: data.header,
         body: data.body,

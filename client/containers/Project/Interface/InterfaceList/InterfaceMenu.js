@@ -17,6 +17,7 @@ import {
   initInterface,
 } from '../../../../reducer/modules/interface.js'
 import {getProject} from '../../../../reducer/modules/project.js'
+import variable from '../../../../constants/variable'
 import {Link, withRouter} from 'react-router-dom'
 
 import './interfaceMenu.scss'
@@ -495,6 +496,8 @@ class InterfaceMenu extends Component {
       }
     }
     const itemInterfaceCreate = item => {
+      let methodColor =
+      variable.METHOD_COLOR[item.method ? item.method.toLowerCase(): 'get']
       return (
         <TreeNode
           key={`${item._id}`}
@@ -507,6 +510,14 @@ class InterfaceMenu extends Component {
                 className='interface-item'
                 to={`/project/${matchParams.id}/interface/api/${item._id}`}
                 onClick={e => e.stopPropagation()}>
+              <span
+                style={{
+                  color: methodColor.color,
+                  backgroundColor: methodColor.bac,
+                }}
+                className='colValue tag-method'>
+                {item.method}&nbsp;&nbsp;
+              </span>
                 {item.title}
               </Link>
               <div className='btns'>

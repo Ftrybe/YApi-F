@@ -316,6 +316,7 @@ class MemberList extends Component {
           columns={columns}
           dataSource={userinfo}
           pagination={false}
+          className="m-table"
           locale={{ emptyText: <ErrMsg type="noMemberInGroup" /> }}
         />
       </div>

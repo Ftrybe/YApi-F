@@ -14,7 +14,6 @@ import {checkLoginState} from './reducer/modules/user'
 import {connect} from 'react-redux'
 import {requireAuthentication} from './components/AuthenticatedComponent'
 import {Route, BrowserRouter as Router} from 'react-router-dom'
-
 const plugin = require('client/plugin.js')
 
 const LOADING_STATUS = 0
@@ -108,6 +107,7 @@ class App extends Component {
     if (status === LOADING_STATUS) {
       return <Loading visible={true} />
     }
+    const footer = status !== 2 ? <Footer /> : '';
     return (
       <Router getUserConfirmation={this.showConfirm}>
         <div className='g-main'>
@@ -136,7 +136,7 @@ class App extends Component {
               })}
             </div>
           </div>
-          <Footer />
+         {footer}
         </div>
       </Router>
     )

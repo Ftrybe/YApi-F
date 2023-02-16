@@ -1,6 +1,6 @@
 {
   "name": "yapi-f",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "修改Yapi-X，合并Yapi修复的信息",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   "scripts": {
     "build-client": "cross-env NODE_ENV=production ykit pack -m",
     "dev": "npm run dev-prepare && concurrently -n sever,client \"npx kill-port 3000 && npm run dev-server\" \"npm run dev-client\"",
-    "dev-prepare": "echo '{\"port\":3000,\"adminAccount\":\"admin@docker.yapi\",\"adminPassword\":\"admin\",\"db\":{\"servername\":\"localhost\",\"port\":27017,\"DATABASE\":\"yapi\"},\"mail\":{\"enable\":false},\"ldapLogin\":{\"enable\":false},\"closeRegister\":true,\"plugins\":[]}' > ../config.json && docker run --rm -d -p 27017:27017 -v $PWD/.data:/data/db mongo:5.0.11 || true && node --unhandled-rejections strict ./server/install.js || true",
+    "dev-prepare": "echo '{\"port\":3000,\"adminAccount\":\"admin@docker.yapi\",\"adminPassword\":\"admin\",\"db\":{\"servername\":\"localhost\",\"port\":27017,\"DATABASE\":\"yapi\"},\"mail\":{\"enable\":false},\"ldapLogin\":{\"enable\":false},\"closeRegister\":true,\"scriptEnable\":true,\"plugins\":[]}' > ../config.json && docker run --rm -d -p 27017:27017 -v $PWD/.data:/data/db mongo:5.0.11 || true && node --unhandled-rejections strict ./server/install.js || true",
     "dev-client": "npm run dev-copy-icon && ykit s -p 4000",
     "dev-copy-icon": "cpr static/iconfont iconfont -d",
     "dev-server": "nodemon server/app.js dev -L",

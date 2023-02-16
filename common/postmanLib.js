@@ -244,7 +244,7 @@ function sandboxByBrowser(context = {}, script) {
  * @param {*} afterScript
  * @param {*} commonContext  负责传递一些业务信息，crossRequest 不关注具体传什么，只负责当中间人
  */
-async function crossRequest(defaultOptions, preScript, afterScript, commonContext = {}) {
+async function crossRequest(defaultOptions, preScript, afterScript, commonContext = {}, scriptEnable = true) {
   const options = Object.assign({}, defaultOptions)
   const taskId = options.taskId || `${Math.random() }`
   const urlObj = URL.parse(options.url, true)
@@ -299,7 +299,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     axios: axios,
   })
 
-  if (preScript) {
+  if (preScript && scriptEnable) {
     context = await sandbox(context, preScript)
     defaultOptions.url = options.url = URL.format({
       protocol: urlObj.protocol,
@@ -339,7 +339,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     })
   }
 
-  if (afterScript) {
+  if (afterScript && scriptEnable) {
     context.responseData = data.res.body
     context.responseHeader = data.res.header
     context.responseStatus = data.res.status

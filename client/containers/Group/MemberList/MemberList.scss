@@ -7,6 +7,13 @@
   margin-top: 0;
   // box-shadow: $box-shadow-panel;
 }
+.m-table {
+  .ant-table-thead {
+    tr th {
+      background: #fff;
+    }
+  }
+}
 
 .m-tab {
   overflow: inherit !important;
