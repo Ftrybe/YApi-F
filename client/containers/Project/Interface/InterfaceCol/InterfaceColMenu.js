@@ -12,6 +12,7 @@ import {
 import { fetchProjectList } from '../../../../reducer/modules/project';
 import axios from 'axios';
 import ImportInterface from './ImportInterface';
+import variable from '../../../../constants/variable'
 import { Input, Icon, Button, Modal, message, Tooltip, Tree, Form } from 'antd';
 import { arrayChangeIndex } from '../../../../common.js';
 import _ from 'underscore'
@@ -446,6 +447,8 @@ export default class InterfaceColMenu extends Component {
     };
 
     const itemInterfaceColCreate = interfaceCase => {
+      let methodColor =
+      variable.METHOD_COLOR[interfaceCase.method ? interfaceCase.method.toLowerCase(): 'get']
       return (
         <TreeNode
           style={{ width: '100%' }}
@@ -457,7 +460,15 @@ export default class InterfaceColMenu extends Component {
               onMouseLeave={this.leaveItem}
               title={interfaceCase.casename}
             >
-              <span className="casename">{interfaceCase.casename}</span>
+              <span className="casename">
+              <span
+                style={{
+                  color: methodColor.color,
+                  marginRight: '4px'
+                }} >
+                {interfaceCase.method}
+              </span>
+               {interfaceCase.casename}</span>
               <div className="btns">
                 <Tooltip title="删除用例">
                   <Icon

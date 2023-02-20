@@ -513,10 +513,9 @@ class InterfaceMenu extends Component {
               <span
                 style={{
                   color: methodColor.color,
-                  backgroundColor: methodColor.bac,
-                }}
-                className='colValue tag-method'>
-                {item.method}&nbsp;&nbsp;
+                  marginRight: '4px'
+                }} >
+                {item.method}
               </span>
                 {item.title}
               </Link>
