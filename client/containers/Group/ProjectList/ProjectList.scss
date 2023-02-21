@@ -13,7 +13,7 @@
 
 .project-list{
   .project-list-header{
-    background: #eee;
+    background: #fff;
     height: 64px;
     line-height: 40px;
     border-radius: 4px;
@@ -25,6 +25,7 @@
     align-items: center;
     color: rgba(39, 56, 72, 0.85);
     font-weight: 500;
+    border-bottom: 1px solid #eee;
   }
   .owner-type{
     // padding: 10px;

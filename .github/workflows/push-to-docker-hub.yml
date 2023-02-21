@@ -15,5 +15,5 @@ jobs:
         VERSION=${GITHUB_REF:11}
         docker login -u ftrybe -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         docker build -f docker/Dockerfile -t ftrybe/yapi-f:latest -t ftrybe/yapi-f:${VERSION} .
-        docker push ftrybe/yapi-x:latest
+        docker push ftrybe/yapi-f:latest
         docker push ftrybe/yapi-f:${VERSION}

@@ -30,7 +30,7 @@
 
 为了节省各自的时间，推荐你使用 **Docker** 安装，同时本文档也不会介绍其他安装方式。
 
-### YApi-X 镜像
+### YApi-F 镜像
 
 - Docker Hub:
   [https://hub.docker.com/r/ftrybe/yapi-f/tags](https://hub.docker.com/r/ftrybe/yapi-f/tags)
@@ -93,7 +93,7 @@ docker-compose restart yapi-web
 
 #### 升级
 
-`YApi-X` 一旦有更新，你可通过以下命令升级：
+`YApi-F` 一旦有更新，你可通过以下命令升级：
 
 ```bash
 docker-compose pull yapi-web \

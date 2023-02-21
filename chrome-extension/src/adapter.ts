@@ -73,7 +73,7 @@ interface CrossRequestPayload {
           'text',
           (response.headers['content-type'] || '').match(/charset=(.*)\b/i)?.[1] || 'utf-8',
         ),
-        // NOTE: YApi-X 预览用
+        // NOTE: YApi-F 预览用
         async getBodyAsDataUrl() {
           return readBase64File(response.base64File, 'dataUrl')
         },
