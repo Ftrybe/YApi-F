@@ -190,6 +190,10 @@ module.exports = {
       bac: '#fff3cf',
       color: '#ffbf00',
     },
+    trace: {
+      bac: '#fff3cf',
+      color: '#ffbf00',
+    }
   },
   MOCK_SOURCE: [
     { name: '字符串', mock: '@string' },
